@@ -27,15 +27,13 @@ export default function LoginScreen({ navigation }) {
       <FormButton
         title='Login'
         modeValue='contained'
-        onPress={() => navigation.navigate('Add_Recipe')}
-        labelStyle={styles.loginButtonLabel}
+        onPress={() => navigation.navigate('Home')}
       />
       <FormButton
         title='Not a member? Register here'
         modeValue='text'
         uppercase={false}
         onPress={() => navigation.navigate('Register')}
-        labelStyle={styles.navButtonText}
       />
     </View>
   );

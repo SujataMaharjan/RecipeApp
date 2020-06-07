@@ -12,6 +12,7 @@ export default function FormButton({ title, modeValue, ...rest }) {
       style={styles.button}
       contentStyle={styles.buttonContainer}
       icon={styles.button}
+      labelStyle={styles.buttonLabel}
     >
       {title}
     </Button>
@@ -25,5 +26,8 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: width / 1.5,
     height: height / 15
+  },
+  buttonLabel:{
+    textAlign:"center"
   }
 });

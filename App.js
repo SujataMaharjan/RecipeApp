@@ -6,7 +6,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from './src/screens/Login';
 import Home from './src/screens/Home';
 import Register from './src/screens/Register';
-import Add_Recipe from './src/screens/Add_Recipe';
+import AddRecipe from './src/screens/AddRecipe';
+import SearchResult from './src/screens/SearchResult';
+import Recipe from './src/screens/Recipe';
 // import {Profile} from './Profile';
 
 const Stack = createStackNavigator();
@@ -31,9 +33,19 @@ export default function App() {
           options={{ headerTitle: 'My Recipe', headerTitleAlign: 'center' }}
         />
         <Stack.Screen
-          name="Add_Recipe"
-          component={Add_Recipe}
-          options={{ headerTitle: 'My Recipe', headerTitleAlign: 'center' }}
+          name="AddRecipe"
+          component={AddRecipe}
+          options={{ headerTitle: 'Add Recipe', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="SearchResult"
+          component={SearchResult}
+          options={{ headerTitle: 'Search Recipe', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Recipe"
+          component={Recipe}
+          options={{ headerTitle: 'Recipe', headerTitleAlign: 'center' }}
         />
         {/* <Stack.Screen
           name="Profile"
