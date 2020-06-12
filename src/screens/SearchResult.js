@@ -3,11 +3,6 @@ import { View, StyleSheet, FlatList, Image, Alert } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 
 export default function SearchResult({ navigation }) {
-    // const data = [
-    //     { _id: "1", name: "Pie", description: "This is pie", ingridents: "tomato, flour", instructions: "Bake", notes:"", picture: "https://images.unsplash.com/photo-1521305916504-4a1121188589?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80" },
-    //     { _id: "2", name: "Pasta", description: "This is pasta", ingridents: "tomato, flour", instructions: "Cook", notes:"", picture: "https://images.unsplash.com/photo-1521305916504-4a1121188589?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80" },
-    //     { _id: "3", name: "Donut", description: "This is donut", ingridents: "choc, flour", instructions: "Bake", notes:"Toppings", picture: "https://images.unsplash.com/photo-1521305916504-4a1121188589?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80" },
-    // ]
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
 
