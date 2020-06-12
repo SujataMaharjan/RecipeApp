@@ -1,15 +1,39 @@
 import React, { useState } from 'react';
 import { Title, RadioButton, Text } from 'react-native-paper';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
 export default function RegisterScreen({ navigation }) {
-    const [firstName, setFName] = useState('');
-    const [lastName, setLName] = useState('');
+    const [fname, setFName] = useState('');
+    const [lname, setLName] = useState('');
     const [gender, setGender] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const createAccount = () => {
+        fetch("http://192.168.0.6:3000/send-user", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fname,
+                lname,
+                email,
+                password
+            })
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                Alert.alert("User added!")
+                navigation.navigate("Login")
+            }).catch((err) => {
+                console.error("err" + err);
+                Alert.alert("Something went wrong!")
+
+            });
+    }
 
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -18,17 +42,17 @@ export default function RegisterScreen({ navigation }) {
         </Title>
             <FormInput
                 labelName='First Name'
-                value={firstName}
+                value={fname}
                 onChangeText={userFName => setFName(userFName)}
             />
 
             <FormInput
                 labelName='Last Name'
-                value={lastName}
+                value={lname}
                 onChangeText={userLName => setLName(userLName)}
             />
-            <Text style={{ fontSize: 16 }}>Gender</Text>
-            <RadioButton.Group
+            {/* <Text style={{ fontSize: 16 }}>Gender</Text> */}
+            {/* <RadioButton.Group
                 onValueChange={gender => setGender(gender)}
             // gender={this.state.gender}
             >
@@ -36,7 +60,7 @@ export default function RegisterScreen({ navigation }) {
                 <RadioButton.Item label="Female" value={gender} />
                 <RadioButton.Item label="Other" value={gender} />
 
-            </RadioButton.Group>
+            </RadioButton.Group> */}
 
             <FormInput
                 labelName='Email'
@@ -52,7 +76,7 @@ export default function RegisterScreen({ navigation }) {
             <FormButton
                 title='Register'
                 modeValue='contained'
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => createAccount()}
             />
         </View>
     );

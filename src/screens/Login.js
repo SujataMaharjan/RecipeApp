@@ -1,12 +1,35 @@
 import React, { useState } from 'react';
 import { Title } from 'react-native-paper';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const userLogin = (props) => {
+    fetch("http://192.168.0.6:3000/login", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email,
+            password
+        })
+    }).then(res => res.json())
+        .then(data => {
+            console.log(data)
+            Alert.alert("Login successful!")
+            navigation.navigate("Home")
+        }).catch((err) => {
+            console.error("err" + err);
+            Alert.alert("Something went wrong!")
+
+        });
+}
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Title style={styles.titleText}>
@@ -27,7 +50,7 @@ export default function LoginScreen({ navigation }) {
       <FormButton
         title='Login'
         modeValue='contained'
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => userLogin()}
       />
       <FormButton
         title='Not a member? Register here'

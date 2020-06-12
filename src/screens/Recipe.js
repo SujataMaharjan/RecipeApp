@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Title, Card} from 'react-native-paper';
 
 export default function Recipe(props) {
-    const {id,name,ingridents,pic} = props.route.params.item
+    const {_id,name,ingridents,pic} = props.route.params.item
     return (
         <View style={styles.root}>
             <LinearGradient

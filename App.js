@@ -9,7 +9,6 @@ import Register from './src/screens/Register';
 import AddRecipe from './src/screens/AddRecipe';
 import SearchResult from './src/screens/SearchResult';
 import Recipe from './src/screens/Recipe';
-// import {Profile} from './Profile';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +39,7 @@ export default function App() {
         <Stack.Screen
           name="SearchResult"
           component={SearchResult}
-          options={{ headerTitle: 'Search Recipe', headerTitleAlign: 'center' }}
+          options={{ headerTitle: 'Search Result', headerTitleAlign: 'center' }}
         />
         <Stack.Screen
           name="Recipe"

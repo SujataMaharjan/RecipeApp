@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 // import * as Permissions from 'expo-permissions';
 import FormInput from '../components/FormInput';
@@ -13,10 +13,35 @@ export default function AddRecipe({ navigation }) {
     const [ingridients, setIngridients] = useState("")
     const [instructions, setInstructions] = useState("")
     const [notes, setNotes] = useState("")
-    const [picture,setPicture] = useState("")
+    const [picture, setPicture] = useState("")
     // const [modal, setModal] = useState("")
+    
 
-    selectFile = () => {
+    const addRecipe = () => {
+        fetch("http://192.168.0.6:3000/send-recipe", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                description,
+                ingridients,
+                instructions,
+                notes,
+                picture
+            })
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                Alert.alert("Recipe added!")
+                navigation.navigate("Home")
+            }).catch(err => {
+                Alert.alert("Something went wrong")
+            })
+    }
+
+   const selectFile = () => {
         var options = {
             title: 'Select Image',
             storageOptions: {
@@ -37,16 +62,25 @@ export default function AddRecipe({ navigation }) {
                 alert(res.customButton);
             } else {
                 let source = res;
-                this.setState({
-                    resourcePath: source,
-                });
+                // setPicture(data)
+                // setPicture({
+                //     resourcePath: source,
+
+                // });
+                let newfile = {
+                    uri:source.uri, 
+                    type:`img/${source.uri.split(".")[1]}`,
+                    name:`img/${source.uri.split(".")[1]}`
+                }
+                handleUpload(newfile)
             }
+            
         });
-        // const handleUpload = (image)=>{
-        //     const data = new FormData()
-        //     data.append('file', image)
-        //     data.append()
-        // }
+        const handleUpload = (image)=>{
+            const data = new FormData()
+            data.append('file', image)
+            setPicture(data.url)
+        }
     };
 
     return (
@@ -57,43 +91,41 @@ export default function AddRecipe({ navigation }) {
                 value={name}
                 onChangeText={recipe_name => setName(recipe_name)}
             />
+                <FormInput
+                    labelName='description'
+                    value={description}
+                    onChangeText={desc => setDescription(desc)}
+                />
+                <FormInput
+                    labelName='ingridients'
+                    value={ingridients}
+                    onChangeText={ing => setIngridients(ing)}
+                />
             <FormInput
                 labelName='instructions'
                 value={instructions}
                 onChangeText={ins => setInstructions(ins)}
             />
-            <FormInput
-                labelName='ingridients'
-                value={ingridients}
-                onChangeText={ing => setIngridients(ing)}
-            />
 
-            <FormInput
-                labelName='description'
-                value={description}
-                onChangeText={desc => setDescription(desc)}
-            />
             <FormInput
                 labelName='notes'
                 value={notes}
                 onChangeText={recipe_notes => setNotes(recipe_notes)}
             />
             <FormButton
-                title="Upload"
-                icon="upload"
+                title="Upload Image"
                 modeValue="contained"
-                onPress={this.selectFile} 
+                onPress={() =>selectFile()}
             />
 
             <FormButton
                 title="Save"
-                icon="content-save"
                 modeValue="contained"
-                onPress={() => console.log("save")} 
+                onPress={() => addRecipe()}
             />
 
         </View>
-        
+
 
     )
 }
