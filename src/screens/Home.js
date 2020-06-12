@@ -31,6 +31,7 @@ export default function HomeScreen({ navigation }) {
 //             navigation.navigate("Home")
 //         })
 // }
+
 const fetchData = () => {
   fetch("http://192.168.0.6:3000/get-recipe")
       .then(res => res.json())
