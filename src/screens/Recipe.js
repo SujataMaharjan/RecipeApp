@@ -19,8 +19,14 @@ export default function Recipe(props) {
             </View>
             <View style={{alignItems:"center", margin:5}}>
             <Title>{name}</Title>
-            <Text style={{fontSize:15}}>Description: {description}</Text>
-            <Text style={{fontSize:15}}>Ingridients: {ingridients}</Text>
+            <Text style={{fontSize:20}}>
+            Description:
+            <Text style={{fontSize:15}}> {description}</Text>
+            </Text>
+            <Text style={{fontSize:20}}>
+            Ingredients: 
+            <Text style={{fontSize:15}}>{ingridients}</Text>
+            </Text>
                 </View>
                 <Card style={styles.myCard}>
                 <View style={styles.cardContent}>
