@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Title, Card} from 'react-native-paper';
 
 export default function Recipe(props) {
-    const {_id,name,ingridents,pic} = props.route.params.item
+    const {_id,name,description,ingridients,recipeImage} = props.route.params.item
     return (
         <View style={styles.root}>
             <LinearGradient
@@ -14,12 +14,13 @@ export default function Recipe(props) {
             <View style={{ alignItems: "center" }}>
                 <Image
                     style={{ width: 140, height: 140, borderRadius: 140 / 2, marginTop: -50 }}
-                    source={{ uri: pic }}
+                    source={{ uri: recipeImage }}
                 />
             </View>
             <View style={{alignItems:"center", margin:5}}>
             <Title>{name}</Title>
-            <Text style={{fontSize:15}}>{ingridents}</Text>
+            <Text style={{fontSize:15}}>Description: {description}</Text>
+            <Text style={{fontSize:15}}>Ingridients: {ingridients}</Text>
                 </View>
                 <Card style={styles.myCard}>
                 <View style={styles.cardContent}>

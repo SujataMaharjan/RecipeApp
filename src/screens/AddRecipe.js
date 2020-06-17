@@ -13,12 +13,14 @@ export default function AddRecipe({ navigation }) {
     const [ingridients, setIngridients] = useState("")
     const [instructions, setInstructions] = useState("")
     const [notes, setNotes] = useState("")
-    const [picture, setPicture] = useState("")
+    const [recipeImage, setRecipeImage] = useState("")
+    const [imageSource, setImageSource] = useState(null)
+
     // const [modal, setModal] = useState("")
-    
+
 
     const addRecipe = () => {
-        fetch("http://192.168.0.6:3000/send-recipe", {
+        fetch("http://192.168.0.5:3000/send-recipe", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +31,7 @@ export default function AddRecipe({ navigation }) {
                 ingridients,
                 instructions,
                 notes,
-                picture
+                recipeImage
             })
         }).then(res => res.json())
             .then(data => {
@@ -41,45 +43,52 @@ export default function AddRecipe({ navigation }) {
             })
     }
 
-   const selectFile = () => {
+    const selectFile = () => {
         var options = {
             title: 'Select Image',
+            mediaType: 'photo',
             storageOptions: {
                 skipBackup: true,
                 path: 'images',
             },
         };
+        // const selectImage = ()=> {
+        ImagePicker.showImagePicker(options, response => {
+            console.log('Response = ', response);
 
-        ImagePicker.showImagePicker(options, res => {
-            console.log('Response = ', res);
-
-            if (res.didCancel) {
+            if (response.didCancel) {
                 console.log('User cancelled image picker');
-            } else if (res.error) {
-                console.log('ImagePicker Error: ', res.error);
-            } else if (res.customButton) {
-                console.log('User tapped custom button: ', res.customButton);
-                alert(res.customButton);
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+                alert(response.customButton);
             } else {
-                let source = res;
-                // setPicture(data)
-                // setPicture({
-                //     resourcePath: source,
+                // let source = ( response.uri );
+                // let source = res;
+                // // setRecipeImage(data)
+                // // setRecipeImage({
+                // //     resourcePath: source,
 
-                // });
-                let newfile = {
-                    uri:source.uri, 
-                    type:`img/${source.uri.split(".")[1]}`,
-                    name:`img/${source.uri.split(".")[1]}`
+                // // });
+                const source = {
+                    uri: response.uri,
+                    type: response.type,
+                    name: response.fileName
                 }
-                handleUpload(newfile)
+                // handleUpload(newfile)
+                setImageSource({
+                    imageSource: source
+                });
+                // setImageSource(source);
             }
-            
+
         });
-        const handleUpload = (image)=>{
+        // }
+        const handleUpload = (image) => {
             const data = new FormData()
             data.append('file', image)
-            setPicture(data.url)
+            setRecipeImage(data.url)
         }
     };
 
@@ -91,16 +100,17 @@ export default function AddRecipe({ navigation }) {
                 value={name}
                 onChangeText={recipe_name => setName(recipe_name)}
             />
-                <FormInput
-                    labelName='description'
-                    value={description}
-                    onChangeText={desc => setDescription(desc)}
-                />
-                <FormInput
-                    labelName='ingridients'
-                    value={ingridients}
-                    onChangeText={ing => setIngridients(ing)}
-                />
+            <FormInput
+                labelName='description'
+                value={description}
+                onChangeText={desc => setDescription(desc)}
+            />
+            <FormInput
+                labelName='ingridients'
+                value={ingridients}
+                onChangeText={ing => setIngridients(ing)}
+            />
+
             <FormInput
                 labelName='instructions'
                 value={instructions}
@@ -112,10 +122,11 @@ export default function AddRecipe({ navigation }) {
                 value={notes}
                 onChangeText={recipe_notes => setNotes(recipe_notes)}
             />
+
             <FormButton
                 title="Upload Image"
                 modeValue="contained"
-                onPress={() =>selectFile()}
+                onPress={() => selectFile()}
             />
 
             <FormButton

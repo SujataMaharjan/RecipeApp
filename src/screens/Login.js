@@ -5,30 +5,36 @@ import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 
 export default function LoginScreen({ navigation }) {
+  const postURL = "http://192.168.0.5:3000/login";
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const userLogin = (props) => {
-    fetch("http://192.168.0.6:3000/login", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            email,
-            password
-        })
+  function userLogin() {
+    fetch(postURL, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "email": email,
+        "password": password
+      })
     }).then(res => res.json())
-        .then(data => {
-            console.log(data)
-            Alert.alert("Login successful!")
-            navigation.navigate("Home")
-        }).catch((err) => {
-            console.error("err" + err);
-            Alert.alert("Something went wrong!")
-
-        });
-}
+      .then(data => {
+        console.log(data)
+        if (data) {
+          Alert.alert("Login successful!")
+          navigation.navigate("Home")
+        }
+        else {
+          Alert.alert("Login unsuccessful!")
+          navigation.navigate("Login")
+        }
+      }).catch((err) => {
+        console.error("err" + err);
+        Alert.alert("Something went wrong!")
+      })
+  }
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -38,14 +44,14 @@ export default function LoginScreen({ navigation }) {
       <FormInput
         labelName='Email'
         value={email}
-        autoCapitalize='none'
-        onChangeText={userEmail => setEmail(userEmail)}
+        keyboardType="email-address"
+        onChangeText={val => setEmail(val)}
       />
       <FormInput
         labelName='Password'
         value={password}
         secureTextEntry={true}
-        onChangeText={userPassword => setPassword(userPassword)}
+        onChangeText={val => setPassword(val)}
       />
       <FormButton
         title='Login'

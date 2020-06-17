@@ -12,7 +12,7 @@ export default function RegisterScreen({ navigation }) {
     const [password, setPassword] = useState('');
 
     const createAccount = () => {
-        fetch("http://192.168.0.6:3000/send-user", {
+        fetch("http://192.168.0.5:3000/send-user", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ export default function RegisterScreen({ navigation }) {
             })
         }).then(res => res.json())
             .then(data => {
-                console.log(data)
+                console.log("Success" + JSON.stringify(data))
                 Alert.alert("User added!")
                 navigation.navigate("Login")
             }).catch((err) => {
@@ -65,6 +65,7 @@ export default function RegisterScreen({ navigation }) {
             <FormInput
                 labelName='Email'
                 value={email}
+                keyboardType="email-address"
                 onChangeText={userEmail => setEmail(userEmail)}
             />
             <FormInput
